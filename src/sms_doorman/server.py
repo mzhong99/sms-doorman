@@ -3,6 +3,7 @@ import os
 
 import logging
 
+from collections.abc import Mapping
 from twilio.twiml.messaging_response import MessagingResponse
 
 _logger = logging.getLogger(__name__)
