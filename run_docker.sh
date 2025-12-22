@@ -14,7 +14,6 @@ docker buildx create --name smsdoorman-builder --use --bootstrap --buildkitd-con
 
 docker buildx build \
   --build-arg PKG_ARCH="${PKG_ARCH}" \
-  --output type=local,dest=dist \
   --platform "${PLATFORM}" \
   -t sms-doorman-shell:local \
   --load \

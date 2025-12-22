@@ -5,6 +5,11 @@ description = "Automation to open a door when you text a phone number"
 authors = [
     {name = "Matthew Zhong",email = "matthewzhong@logmethods.com"}
 ]
+
+packages = [
+    { include = "sms_doorman", from = "src" }
+]
+
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
