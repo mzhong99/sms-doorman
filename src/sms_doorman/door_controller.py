@@ -71,6 +71,7 @@ class DoorController(DoorControllerInterface):
         self.delayed_releaser = Timer(1.0, self.release)
 
     def thread_worker(self):
+        import RPi.GPIO as GPIO
         while True:
             command = self.command_queue.get()
             if command == DoorCommand.CANCEL:
