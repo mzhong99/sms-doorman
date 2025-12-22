@@ -19,9 +19,11 @@ WORKDIR /project
 RUN apt-get update && apt-get install -y --no-install-recommends \
     bash \
     curl \
-    gcc \
     ruby \
     ruby-dev \
+    gcc \
+    python3-dev \
+    libc6-dev \
     ca-certificates \
     && gem install --no-document fpm \
     && rm -rf /var/lib/apt/lists/*

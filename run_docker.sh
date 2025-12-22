@@ -20,5 +20,5 @@ docker buildx build \
   --load \
   .
 
-docker run --rm -it sms-doorman-shell:local /bin/bash
+docker run --rm -v "$PWD/artifacts:/artifacts" --platform ${PLATFORM} -it sms-doorman-shell:local /bin/bash
 

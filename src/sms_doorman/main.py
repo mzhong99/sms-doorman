@@ -1,27 +1,15 @@
-import logging
+import os
+import uvicorn
 
-from fastapi import FastAPI, Request, Response, HTTPException
-from sms_doorman.server import TwilioExecServer
+def main() -> None:
+    # Allow env overrides; keep sane defaults.
+    host = os.getenv("SMS_DOORMAN_HOST", "127.0.0.1")
+    port = int(os.getenv("SMS_DOORMAN_PORT", "8000"))
+    log_level = os.getenv("SMS_DOORMAN_LOG_LEVEL", "info")
 
-_logger = logging.getLogger(__name__)
+    # IMPORTANT: pass the import string, not the app object.
+    # This keeps uvicorn reload/workers behavior compatible if you ever use them.
+    uvicorn.run("sms_doorman.application:app", host=host, port=port, log_level=log_level)
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s | %(levelname)-8s | %(filename)s:%(lineno)d - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
-
-app = FastAPI()
-server = TwilioExecServer()
-
-@app.post("/twillio/sms")
-async def twilio_sms(request: Request):
-    form = dict(await(request.form()))
-    xml = server.handle_sms(
-        path=request.url.path,
-        query=request.url.query,
-        headers=request.headers,
-        form=form,
-    )
-
-    return Response(content=xml, media_type="application/xml")
+if __name__ == "__main__":
+    main()

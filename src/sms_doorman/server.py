@@ -11,7 +11,7 @@ RATE_LIMIT_SEC = 0.5
 
 class TwilioExecServer:
     def __init__(self):
-        pass
+        self.sms_callbacks: list[callable[str, str]] = []
 
     def _enforce_rate_limit(self, caller: str) -> None:
         last_sec = self.last_sms_rx.get(caller, 0.0)
@@ -25,8 +25,13 @@ class TwilioExecServer:
         body = (form.get("Body", "") or "").strip()
 
         _logger.info(f"GOT: {caller} - {body}")
+        for callback in self.sms_callbacks:
+            callback(caller, body)
 
         resp = MessagingResponse()
         resp.message("OK")
 
         return str(resp)
+
+    def add_callback(self, callback):
+        self.sms_callbacks.append(callback)

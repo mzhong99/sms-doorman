@@ -17,6 +17,7 @@ dependencies = [
 
 [tool.poetry.scripts]
 sms-doorman-ctl = "sms_doorman.door_controller:main"
+sms-doorman = "sms_doorman.main:main"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
