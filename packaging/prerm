@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+systemctl stop sms-doorman.service >/dev/null 2>&1 || true
+systemctl disable sms-doorman.service >/dev/null 2>&1 || true
+systemctl daemon-reload
+
+exit 0
+

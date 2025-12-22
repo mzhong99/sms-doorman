@@ -1,0 +1,15 @@
+[Unit]
+Description=SMS Doorman daemon
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/sms_doorman
+ExecStart=/opt/sms_doorman/venv/bin/sms-doorman
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
+
