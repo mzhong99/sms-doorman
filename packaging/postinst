@@ -21,7 +21,7 @@ fi
 "${VENV}/bin/pip" install --upgrade -r "${ART}/requirements.txt"
 
 WHEEL="$(ls -1 "${ART}"/*.whl | head -n 1)"
-"${VENV}/bin/pip" install --upgrade "${WHEEL}"
+"${VENV}/bin/pip" install --upgrade --force-reinstall "${WHEEL}"
 
 systemctl daemon-reload || true
 systemctl enable "${APP}.service" || true
