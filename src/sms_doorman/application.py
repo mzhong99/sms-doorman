@@ -44,7 +44,7 @@ if is_raspberry_pi():
 
 server.add_callback(service_sms_text)
 
-@app.post("/twillio/sms")
+@app.post("/twilio/sms")
 async def twilio_sms(request: Request):
     form = dict(await(request.form()))
     xml = server.handle_sms(

@@ -1,8 +1,29 @@
-#!/bin/sh
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-systemctl daemon-reload
-systemctl enable --now sms-doorman.service >/dev/null 2>&1 || true
+APP="sms-doorman"
+APP_DIR="/opt/${APP}"
+VENV="${APP_DIR}/venv"
+ART="${APP_DIR}/artifacts"
 
-exit 0
+if ! id -u "${APP}" >/dev/null 2>&1; then
+    useradd --system --home "${APP_DIR}" --shell /usr/sbin/nologin "${APP}"
+fi
+
+mkdir -p "${APP_DIR}"
+chown -R "${APP}:${APP}" "${APP_DIR}" || true
+
+if [ ! -x "${VENV}/bin/python" ]; then
+    python3 -m venv "${VENV}"
+fi
+
+"${VENV}/bin/pip" install --upgrade pip
+"${VENV}/bin/pip" install --upgrade -r "${ART}/requirements.txt"
+
+WHEEL="$(ls -1 "${ART}"/*.whl | head -n 1)"
+"${VENV}/bin/pip" install --upgrade "${WHEEL}"
+
+systemctl daemon-reload || true
+systemctl enable "${APP}.service" || true
+systemctl restart "${APP}.service" || true
 

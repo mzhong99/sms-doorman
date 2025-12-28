@@ -19,5 +19,9 @@ docker buildx build \
   --load \
   .
 
-docker run --rm -v "$PWD/artifacts:/artifacts" --platform ${PLATFORM} -it sms-doorman-shell:local /bin/bash
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$PWD:/project:Z" \
+    --platform ${PLATFORM} \
+    -it sms-doorman-shell:local /bin/bash
 
